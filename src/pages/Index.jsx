@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Container, Flex, Heading, Text, VStack, HStack, Link, Spacer, Input, Textarea, Button } from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, Text, VStack, HStack, Link, Spacer, Input, Textarea, Button, useColorModeValue } from "@chakra-ui/react";
 import { FaTwitter, FaLinkedin, FaGithub } from "react-icons/fa";
 
 const Index = () => {
@@ -21,10 +21,13 @@ const Index = () => {
     setNewPost({ title: "", content: "" });
   };
 
+  const bg = useColorModeValue("white", "gray.800");
+  const color = useColorModeValue("black", "white");
+
   return (
-    <Box>
+    <Box bg={bg} color={color}>
       {/* Navigation Bar */}
-      <Box as="nav" bg="brand.800" color="white" py={4}>
+      <Box as="nav" bg={useColorModeValue("brand.800", "gray.700")} color="white" py={4}>
         <Container maxW="container.lg">
           <Flex align="center">
             <Heading as="h1" size="lg">My Blog</Heading>
@@ -82,7 +85,7 @@ const Index = () => {
       </Container>
 
       {/* Footer */}
-      <Box as="footer" bg="brand.800" color="white" py={4} mt={10}>
+      <Box as="footer" bg={useColorModeValue("brand.800", "gray.700")} color="white" py={4} mt={10}>
         <Container maxW="container.lg">
           <Flex align="center">
             <Text>&copy; {new Date().getFullYear()} My Blog. All rights reserved.</Text>
