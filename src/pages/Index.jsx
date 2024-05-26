@@ -1,7 +1,26 @@
-import { Box, Container, Flex, Heading, Text, VStack, HStack, Link, Spacer } from "@chakra-ui/react";
+import { useState } from "react";
+import { Box, Container, Flex, Heading, Text, VStack, HStack, Link, Spacer, Input, Textarea, Button } from "@chakra-ui/react";
 import { FaTwitter, FaLinkedin, FaGithub } from "react-icons/fa";
 
 const Index = () => {
+  const [posts, setPosts] = useState([
+    { title: "Post Title 1", content: "This is a brief summary of the first blog post. Click to read more..." },
+    { title: "Post Title 2", content: "This is a brief summary of the second blog post. Click to read more..." }
+  ]);
+
+  const [newPost, setNewPost] = useState({ title: "", content: "" });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewPost({ ...newPost, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setPosts([...posts, newPost]);
+    setNewPost({ title: "", content: "" });
+  };
+
   return (
     <Box>
       {/* Navigation Bar */}
@@ -27,16 +46,36 @@ const Index = () => {
             <Text mt={4}>This is a place where I share my thoughts and experiences on various topics. Stay tuned for more updates!</Text>
           </Box>
           <Box>
+            <Heading as="h3" size="lg">Add a New Post</Heading>
+            <Box as="form" onSubmit={handleSubmit} mt={4}>
+              <VStack spacing={4} align="stretch">
+                <Input
+                  placeholder="Title"
+                  name="title"
+                  value={newPost.title}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Textarea
+                  placeholder="Content"
+                  name="content"
+                  value={newPost.content}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Button type="submit" colorScheme="blue">Add Post</Button>
+              </VStack>
+            </Box>
+          </Box>
+          <Box>
             <Heading as="h3" size="lg">Latest Posts</Heading>
             <VStack spacing={4} mt={4} align="stretch">
-              <Box p={5} shadow="md" borderWidth="1px">
-                <Heading as="h4" size="md">Post Title 1</Heading>
-                <Text mt={2}>This is a brief summary of the first blog post. Click to read more...</Text>
-              </Box>
-              <Box p={5} shadow="md" borderWidth="1px">
-                <Heading as="h4" size="md">Post Title 2</Heading>
-                <Text mt={2}>This is a brief summary of the second blog post. Click to read more...</Text>
-              </Box>
+              {posts.map((post, index) => (
+                <Box key={index} p={5} shadow="md" borderWidth="1px">
+                  <Heading as="h4" size="md">{post.title}</Heading>
+                  <Text mt={2}>{post.content}</Text>
+                </Box>
+              ))}
             </VStack>
           </Box>
         </VStack>
