@@ -9,6 +9,7 @@ const Index = () => {
   ]);
 
   const [newPost, setNewPost] = useState({ title: "", content: "" });
+  const [postToDelete, setPostToDelete] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,6 +20,15 @@ const Index = () => {
     e.preventDefault();
     setPosts([...posts, newPost]);
     setNewPost({ title: "", content: "" });
+  };
+
+  const handleDelete = (index) => {
+    setPosts(posts.filter((_, i) => i !== index));
+    setPostToDelete(null);
+  };
+
+  const confirmDelete = (index) => {
+    setPostToDelete(index);
   };
 
   const bg = useColorModeValue("white", "gray.800");
@@ -77,11 +87,19 @@ const Index = () => {
                 <Box key={index} p={5} shadow="md" borderWidth="1px">
                   <Heading as="h4" size="md">{post.title}</Heading>
                   <Text mt={2}>{post.content}</Text>
+                  <Button colorScheme="red" onClick={() => confirmDelete(index)}>Delete</Button>
                 </Box>
               ))}
             </VStack>
           </Box>
         </VStack>
+        {postToDelete !== null && (
+          <Box mt={4}>
+            <Text>Are you sure you want to delete this post?</Text>
+            <Button colorScheme="red" onClick={() => handleDelete(postToDelete)}>Yes</Button>
+            <Button onClick={() => setPostToDelete(null)}>No</Button>
+          </Box>
+        )}
       </Container>
 
       {/* Footer */}
